@@ -5,13 +5,13 @@
 __Perform training using__
 
 ```
-python perform-training.py -t ../data/lbp/train/ -l ../data/lbp/class_train.txt
+python perform-training.py -t data/lbp/train/ -l data/lbp/class_train.txt
 ```
 
 __Perform testing using__
 
 ```
-python perform-testing.py -t ../data/lbp/test/ -l ../data/lbp/class_test.txt
+python perform-testing.py -t data/lbp/test/ -l data/lbp/class_test.txt
 ```
 ## Results
 

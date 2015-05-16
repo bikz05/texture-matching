@@ -34,17 +34,13 @@ X_name, X_test, y_test = joblib.load("lbp.pkl")
 test_images = cvutils.imlist(args["testingSet"])
 # Dictionary containing image paths as keys and corresponding label as value
 test_dic = {}
-with open(args["imageLabels"], 'rb') as csvfile:
+with open('../data/lbp/class_test.txt', 'rb') as csvfile:
     reader = csv.reader(csvfile, delimiter=' ')
     for row in reader:
         test_dic[row[0]] = int(row[1])
 
-# Dict containing scores
-results_all = {}
-
 for test_image in test_images:
-    print "\nCalculating Normalized LBP Histogram for {}".format(test_image)
-    # Read the image
+     # Read the image
     im = cv2.imread(test_image)
     # Convert to grayscale as LBP works on grayscale image
     im_gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
@@ -58,6 +54,7 @@ for test_image in test_images:
     # Normalize the histogram
     hist = x[:, 1]/sum(x[:, 1])
     # Display the query image
+    cv2.imshow("** Query Image -> {}**".format(test_image), im)
     results = []
     # For each image in the training dataset
     # Calculate the chi-squared distance and the sort the values
@@ -65,14 +62,6 @@ for test_image in test_images:
         score = cv2.compareHist(np.array(x, dtype=np.float32), np.array(hist, dtype=np.float32), cv2.cv.CV_COMP_CHISQR)
         results.append((X_name[index], round(score, 3)))
     results = sorted(results, key=lambda score: score[1])
-    results_all[test_image] = results
-    print "Displaying scores for {} ** \n".format(test_image)
-    for image, score in results:
-        print "{} has score {}".format(image, score)
-
-for test_image, results in results_all.items():
-    # Read the image
-    im = cv2.imread(test_image)
     # Display the results
     nrows = 2
     ncols = 3
@@ -86,7 +75,6 @@ for test_image, results in results_all.items():
     fig.canvas.draw()
     im_ts = np.fromstring(fig.canvas.tostring_rgb(), dtype=np.uint8, sep='')
     im_ts = im_ts.reshape(fig.canvas.get_width_height()[::-1] + (3,))
-    cv2.imshow("** Query Image -> {}**".format(test_image), im)
     cv2.imshow("** Scores for -> {}**".format(test_image), im_ts)
     cv2.waitKey()
     cv2.destroyAllWindows()

@@ -57,5 +57,5 @@ docs/_build/
 target/
 
 # Ubuntu crap
-# *.~
-# *.swp
+*.~
+*.swp

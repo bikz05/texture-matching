@@ -1,5 +1,8 @@
 # Texture Matching using Local Binary Patterns (LBP)
 
+Related blog post explaining the code - [Click
+Here](http://hanzratech.in/2015/05/30/local-binary-patterns.html)
+
 ## Usage
 
 __Perform training using__
